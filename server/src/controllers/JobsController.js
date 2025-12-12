@@ -12,14 +12,13 @@ export const displayJobs = async (req, res) => {
 
 export const newJob = async (req, res) => {
     try {
-        const { title, description, location, date, category } = req.body;
-        const job = new Jobs({ title, description, location, date, category })
-        await job.save();
-
-        res.status(201).json(job);
+        console.log("Body received:", req.body);
+        const newJob = await Jobs.create(req.body)
+        console.log(newJob)
+        res.status(201).json(newJob);
     }
     catch (error) {
-        res.status(500).json({ message: "failed to submit" })
+        res.status(500).json({ message: "failed to submit", error: error.message })
     }
 };
 

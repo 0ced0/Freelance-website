@@ -1,30 +1,47 @@
 import { useState, useEffect } from "react";
 import { JobCard } from './JobCard'
+import { Navbar } from "./Navbar";
+import useJobs from "../hooks/jobs_hooks";
 
 export const JobPostings = () => {
+    const job = useJobs()
+    const [focus, setFocus] = useState("")
+    const [searchQuery, setSearchQuery] = useState("");
 
-    // useEffect(() => {
-    //     async function loadJobs () {
-    //         try {
-    //             const res = await fetch("http://127.0.0.1:5000/jobs");
-    //             const data = await res.json();
-    //             setJobs(data);
-    //             setTitle(data.map(job => job.title));
-    //         }
-    //         catch (error) {
-    //             res.status(500).json("no jobs")
-    //         }
+    const filteredJobs = job.filter((job) =>
+        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.location.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-    //     }
-    //     loadJobs();
-    // }, []);
 
     return (
-        <div className=' w-full flex bg-[#f2f3cc] h-auto shadow-inner'>
-            <h1 className=" absolute left-5 text-[20px] lato">
-                Job Postings</h1>
+        <div className="flex w-[70%] mx-auto bg-white shadow-lg px-4 pt-8">
+            <div className=' w-[45%] h-auto rounded-l-lg pt-2'>
+                <h1 className="left-5 text-[20px] lato mt-2">
+                    Jobs for you</h1>
 
-            <JobCard />
+                <JobCard focus={focus} setFocus={setFocus} />
+            </div>
+            <div className="h-[300px] w-[55%]">
+                <div className="mt-14 bg-white w-full border shadow-lg rounded-lg">
+                    {job.map((i) => {
+                        if (focus === "") {
+                            setFocus(i)
+                            return null
+                        }
+                        return null
+                    })}
+
+                    {/* focus card */}
+                    <div className="py-3 px-5 sticky top-30">
+                        <h1 className="text-[30px] font-medium mb-8">{focus.title}</h1>
+                        <p className="mb-5">{focus.description}</p>
+                        <p className="mb-3">{focus.location}</p>
+                        <p>Contact me at: {focus.email}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
