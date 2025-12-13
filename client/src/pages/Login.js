@@ -41,7 +41,7 @@ export default function Login() {
             <div className="flex flex-col bg-white shadow-lg rounded-lg mx-auto w-[30%] items-center p-4 mt-32 gap-2">
                 <h1 className="text-[20px] mb-6">Login</h1>
 
-                <h1>Enter Email</h1>
+                <h1>Enter Username</h1>
                 <input
                     className="border shadow rounded w-[70%] px-2 py-1"
                     value={username}

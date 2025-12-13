@@ -1,7 +1,6 @@
 import { Navbar } from '../components/Navbar';
 import { JobPostings } from '../components/JobPostings';
 import home_group from '../assets/home_group.jpg';
-import { Footer } from '../components/Footer';
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { AuthContext } from '../AuthContext';
@@ -54,7 +53,6 @@ function Home() {
                     />
                 </div>
                 <JobPostings />
-                <Footer />
             </div>
         );
     } else {
