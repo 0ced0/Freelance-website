@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid"
 
 const job_category = {
-    "traditional art": PaintBrushIcon,
+    "creative": PaintBrushIcon,
     "education": AcademicCapIcon,
     "web developer": GlobeAltIcon,
     "mobile developer": DevicePhoneMobileIcon,
