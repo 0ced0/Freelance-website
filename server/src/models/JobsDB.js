@@ -6,6 +6,7 @@ const JobsSchema = new mongoose.Schema({
     location: { type: String, required: true },
     email: { type: String, required: true },
     category: { type: String, required: true },
+    author: { type: String, required: true }
 }, { timestamps: true });
 
 const Jobs = mongoose.model("Job", JobsSchema)

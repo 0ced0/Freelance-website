@@ -3,7 +3,7 @@ import { JobCard } from './JobCard'
 import { Navbar } from "./Navbar";
 import useJobs from "../hooks/jobs_hooks";
 
-export const JobPostings = () => {
+export const JobPostings = ({ query }) => {
     const job = useJobs()
     const [focus, setFocus] = useState("")
     const [searchQuery, setSearchQuery] = useState("");
@@ -16,12 +16,12 @@ export const JobPostings = () => {
 
 
     return (
-        <div className="flex w-[70%] mx-auto bg-white shadow-lg px-4 pt-8">
+        <div className="flex w-[70%] mx-auto bg-white shadow-lg px-4 pt-8 min-h-[600px]">
             <div className=' w-[45%] h-auto rounded-l-lg pt-2'>
                 <h1 className="left-5 text-[20px] lato mt-2">
                     Jobs for you</h1>
 
-                <JobCard focus={focus} setFocus={setFocus} />
+                <JobCard focus={focus} setFocus={setFocus} query={query} />
             </div>
             <div className="h-[300px] w-[55%]">
                 <div className="mt-14 bg-white w-full border shadow-lg rounded-lg">

@@ -6,6 +6,12 @@ import { useState, useContext } from "react";
 import { AuthContext } from '../AuthContext';
 
 function Home() {
+    const [query, setQuery] = useState("")
+
+    function handleSearchQuery(e) {
+        setQuery(e.target.value)
+    }
+
     const { user, loading } = useContext(AuthContext)
     const navigate = useNavigate()
     // Menu States
@@ -32,7 +38,7 @@ function Home() {
             <div className="relative space-y-4 text-[#4B4A54]">
                 {/* <NewJobForm /> */}
 
-                <Navbar isProfileOpen={isProfileOpen} toggleMenu={menu_handlers} />
+                <Navbar isProfileOpen={isProfileOpen} toggleMenu={menu_handlers} searchQuery={query} handleSearchQuery={handleSearchQuery} />
                 <div className="flex w-[70%] m-auto justify-center">
                     <div className="p-9 text-center shadow items-center border rounded-l-[30px] lato font-bold text-[#4B4A54] h-auto">
                         <p className="text-[40px] ">Join the Community!</p>
@@ -52,7 +58,7 @@ function Home() {
                         className="w-[40%] h-auto shadow "
                     />
                 </div>
-                <JobPostings />
+                <JobPostings query={query} />
             </div>
         );
     } else {
@@ -76,8 +82,8 @@ function Home() {
             <div className="relative text-[#4B4A54] bg-[#f2f3cc]">
                 {/* <NewJobForm /> */}
 
-                <Navbar isProfileOpen={isProfileOpen} toggleMenu={menu_handlers} />
-                <JobPostings />
+                <Navbar isProfileOpen={isProfileOpen} toggleMenu={menu_handlers} searchQuery={query} handleSearchQuery={handleSearchQuery} />
+                <JobPostings query={query} />
             </div>
         );
     }

@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { AuthContext } from "../../../AuthContext"
 import { useNavigate } from "react-router-dom"
 import NewJobForm from "../components/NewJobForm"
 import useJobs from "../../../hooks/jobs_hooks"
 
 export default function MyJobPostings() {
     const [isFormOpen, setIsFormOpen] = useState(false)
+    const { user, token } = useContext(AuthContext)
     const navigate = useNavigate()
     const jobs = useJobs()
 
@@ -21,15 +23,19 @@ export default function MyJobPostings() {
             <div className="flex p-4 gap-4 h-full flex-wrap">
 
                 {jobs.map((job) => {
-                    return (
-                        <div className="flex p-3 bg-white shadow-xl rounded-lg w-[30%] border h-[40%]">
-                            <div className="relative">
-                                <h1 className="text-[30px] font-medium line-clamp-1 mb-6">{job.title}</h1>
-                                <p className="line-clamp-3 mb-5">{job.description}</p>
-                                <p className="absolute bottom-0">{job.location}</p>
+                    console.log(job.author)
+                    console.log("this is the suser", user)
+                    if (job.author === user.username) {
+                        return (
+                            <div className="flex p-3 bg-white shadow-xl rounded-lg w-[30%] border h-[40%]">
+                                <div className="relative">
+                                    <h1 className="text-[30px] font-medium line-clamp-1 mb-6">{job.title}</h1>
+                                    <p className="line-clamp-3 mb-5">{job.description}</p>
+                                    <p className="absolute bottom-0">{job.location}</p>
+                                </div>
                             </div>
-                        </div>
-                    )
+                        )
+                    } else { return null }
                 })}
                 <button onClick={handleOpenJobForm} className={`group transition-all duration-100 ${!isFormOpen ? "hover:scale-105" : ""} h-[40%] w-[27%] p-5 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.1)] rounded-[15px]`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="transition-all duration-300 group-hover:text-[#57ba4c] group-hover:border-[#57ba4c] border border-dashed border-2 p-3 mx-auto mb-5 w-[90%] h-24 rounded-[15px]">

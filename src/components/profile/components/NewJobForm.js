@@ -1,6 +1,6 @@
 import { useState } from "react";
-// import { newJob } from "../../../../../server/src/controllers/JobsController";
-
+import { useContext } from "react";
+import { AuthContext } from "../../../AuthContext";
 
 const categories = [
     "Creative",
@@ -13,16 +13,20 @@ const categories = [
 export default function NewJobForm({ isFormOpen, toggleForm }) {
     const [isCategoryOpen, setIsCategryOpen] = useState(false);
     const [category, setCategory] = useState("");
+    const { user, token } = useContext(AuthContext)
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const newJobData = Object.fromEntries(formData.entries())
+        newJobData.author = user.username
         const res = await fetch("http://localhost:8000/api/jobs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newJobData)
         });
+        console.log(newJobData)
         console.log(res)
         console.log(newJobData)
         const data = await res.json();

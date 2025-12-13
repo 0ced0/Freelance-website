@@ -2,14 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from "react";
 import { AuthContext } from '../AuthContext';
 
-export const Navbar = ({ isProfileOpen, toggleMenu }) => {
+
+export const Navbar = ({ isProfileOpen, toggleMenu, searchQuery, handleSearchQuery }) => {
     const menuFunctions = toggleMenu()
     const navigate = useNavigate()
     const { user, loading } = useContext(AuthContext)
 
     // Redirect Handlers
     const page = () => {
-
         function goToProfile() {
             navigate("/profile")
         }
@@ -31,8 +31,9 @@ export const Navbar = ({ isProfileOpen, toggleMenu }) => {
             {/* Search Bar */}
             <div className=" w-[40%] ml-0">
                 <div className="relative w-full">
-                    <input
+                    <input onChange={handleSearchQuery}
                         type="text"
+                        value={searchQuery}
                         placeholder="Search for services"
                         className="w-full pl-8 rounded-xl border border-gray-300 bg-white py-3 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
                     />
