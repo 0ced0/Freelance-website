@@ -4,7 +4,7 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(false);
-    const [loading, setLoading] = useState(true); // optional, to track if auth check is in progress
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
@@ -38,7 +38,6 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
-    // Optional helper functions
     const login = (token, userData) => {
         localStorage.setItem("authToken", token);
         setUser(userData);

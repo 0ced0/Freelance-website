@@ -1,44 +1,51 @@
-import { Navbar } from '../components/Navbar';
-import { JobPostings } from '../components/JobPostings';
+import { Navbar } from '../components/home/Navbar';
+import { JobPostings } from '../components/home/JobPostings';
 import home_group from '../assets/home_group.jpg';
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { AuthContext } from '../AuthContext';
+import { ViewJobPost } from '../components/home/ViewPost';
+import ProfileCard from '../components/home/ProfileCard';
+import { CheckUser } from '../components/home/ProfileCard';
 
 function Home() {
     const [query, setQuery] = useState("")
+    const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
+    // Menu States
+    const [isProfileOpen, setIsProfileOpen] = useState(false)
+    const [isViewing, setIsViewing] = useState(false)
+    const [viewTarget, setViewTarget] = useState(null)
+    const [isViewingProfile, setIsViewingProfile] = useState(false)
+    const [viewProfileTarget, setViewProfileTarget] = useState("")
 
     function handleSearchQuery(e) {
         setQuery(e.target.value)
     }
 
-    const { user, loading } = useContext(AuthContext)
-    const navigate = useNavigate()
-    // Menu States
-    const [isProfileOpen, setIsProfileOpen] = useState(false)
+    const menu_handlers = () => {
+        function handleOpenProfile() {
+            setIsProfileOpen(prev => !prev)
+        }
+        function handleViewPost(key) {
+            setIsViewing(prev => !prev)
+            setViewTarget(key)
+        }
+        return {
+            handleOpenProfile,
+            handleViewPost
+        }
+    }
+
 
     if (!user) {
         // Menu Handlers
-        const menu_handlers = () => {
-            function handleOpenProfile() {
-                setIsProfileOpen(prev => !prev)
-            }
-
-            function testFunction() {
-                console.log("this is a test function")
-            }
-
-            return {
-                handleOpenProfile,
-                testFunction
-            }
-        }
 
         return (
-            <div className="relative space-y-4 text-[#4B4A54]">
+            <div className="relative space-y-4 text-[#4B4A54] scrollbar scrollbar-thumb-blue-100 ">
                 {/* <NewJobForm /> */}
 
-                <Navbar isProfileOpen={isProfileOpen} toggleMenu={menu_handlers} searchQuery={query} handleSearchQuery={handleSearchQuery} />
+                <Navbar isProfileOpen={isProfileOpen} setIsProfileOpen={setIsProfileOpen} toggleMenu={menu_handlers} searchQuery={query} handleSearchQuery={handleSearchQuery} />
                 <div className="flex w-[70%] m-auto justify-center">
                     <div className="p-9 text-center shadow items-center border rounded-l-[30px] lato font-bold text-[#4B4A54] h-auto">
                         <p className="text-[40px] ">Join the Community!</p>
@@ -59,31 +66,25 @@ function Home() {
                     />
                 </div>
                 <JobPostings query={query} />
+                <ProfileCard setIsViewingProfile={setIsViewingProfile} setViewProfileTarget={setViewProfileTarget} query={query} />
             </div>
         );
     } else {
-        // Menu Handlers
-        const menu_handlers = () => {
-            function handleOpenProfile() {
-                setIsProfileOpen(prev => !prev)
-            }
-
-            function testFunction() {
-                console.log("this is a test function")
-            }
-
-            return {
-                handleOpenProfile,
-                testFunction
-            }
-        }
-
+        // logged in
         return (
-            <div className="relative text-[#4B4A54] bg-[#f2f3cc]">
+            <div className="relative text-[#4B4A54]  scrollbar-thumb-red-600 scrollbar-thumb-rounded-full">
                 {/* <NewJobForm /> */}
 
-                <Navbar isProfileOpen={isProfileOpen} toggleMenu={menu_handlers} searchQuery={query} handleSearchQuery={handleSearchQuery} />
-                <JobPostings query={query} />
+                <Navbar
+                    isProfileOpen={isProfileOpen}
+                    setIsProfileOpen={setIsProfileOpen}
+                    toggleMenu={menu_handlers}
+                    searchQuery={query}
+                    handleSearchQuery={handleSearchQuery} />
+                <JobPostings query={query} isViewing={isViewing} menu_handlers={menu_handlers} />
+                <ProfileCard setIsViewingProfile={setIsViewingProfile} setViewProfileTarget={setViewProfileTarget} query={query} />
+                {isViewing && (<ViewJobPost menu_handlers={menu_handlers} viewTarget={viewTarget} />)}
+                {isViewingProfile && (<CheckUser setIsViewingProfile={setIsViewingProfile} user={user} viewProfileTarget={viewProfileTarget} />)}
             </div>
         );
     }

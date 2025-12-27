@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from '../models/UsersDB.js';
+import freeLancers from "../models/freeLancersDB.js";
+import { UsersIcon } from "@heroicons/react/16/solid";
 
 export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
@@ -29,10 +31,8 @@ export const registerUser = async (req, res) => {
 
 
     } catch (err) {
-        console.log("🔥 FULL ERROR OBJECT:", JSON.stringify(err, null, 2));
-        console.log("🔥 RAW ERR:", err);
 
-        if (err.code == 11000) {
+        if (err.code === 11000) {
             return res.status(400).json({
                 type: "DUPLICATE_KEY",
                 field: Object.keys(err.keyPattern)[0],
@@ -98,3 +98,74 @@ export const checkUser = async (req, res) => {
         res.status(401).json({ msg: "Invalid token" });
     }
 };
+
+export const registerFreeLancer = async (req, res) => {
+    try {
+        const newFreeLancer = await freeLancers.create(req.body)
+        res.status(201).json(newFreeLancer)
+    } catch (error) {
+        res.status(500).json({ msg: error.message })
+    }
+};
+
+export const profileVisit = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const freelancer = await User.findByIdAndUpdate(
+            id,
+            { $inc: { visits: 1 } },
+            { new: true }
+        );
+
+        if (!freelancer) return res.status(404).json({ msg: "Freelancer not found" });
+
+        res.json({ visits: freelancer.visits });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: err.message });
+    }
+}
+
+export const fetchFreeLancers = async (req, res) => {
+    try {
+        const data = await User.find();
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
+
+
+export const updateFreeLancer = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const updatedFreeLancer = await User.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedFreeLancer) {
+            return res.status(404).json({ msg: "Freelancer not found" });
+        }
+
+        res.status(200).json(updatedFreeLancer);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
+
+export const fetchPopularFreeLancers = async (req, res) => {
+    try {
+        const result = await User.aggregate([
+            { $sort: { visits: -1 } },
+            { $limit: 5 }
+        ])
+        res.status(200).json(result)
+        console.log(result)
+    } catch (err) {
+        return (console.log(err))
+    }
+}

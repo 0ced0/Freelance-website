@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../../AuthContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 const categories = [
     "Creative",
@@ -13,23 +16,21 @@ const categories = [
 export default function NewJobForm({ isFormOpen, toggleForm }) {
     const [isCategoryOpen, setIsCategryOpen] = useState(false);
     const [category, setCategory] = useState("");
-    const { user, token } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
+    const [selectedDate, setSelectedDate] = useState(null)
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const newJobData = Object.fromEntries(formData.entries())
-        newJobData.author = user.username
+        newJobData.author = user._id
+        newJobData.email = user.email
         const res = await fetch("http://localhost:8000/api/jobs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newJobData)
         });
-        console.log(newJobData)
-        console.log(res)
-        console.log(newJobData)
-        const data = await res.json();
 
         setCategory("")
         e.target.reset()
@@ -75,20 +76,10 @@ export default function NewJobForm({ isFormOpen, toggleForm }) {
                         </div>
 
                     </div>
-
-                    <div className="flex w-full justify-between">
-                        <div className="text-left w-[45%]">
-                            <h1>Enter Contact Email</h1>
-                            <input name="email" required className="border border-black rounded w-full px-2" />
-                        </div>
-
-                        <div className="text-left w-[45%]">
-                            <h1>Enter Location</h1>
-                            <input name="location" required className="border border-black rounded w-full px-2" />
-                        </div>
+                    <div className="text-left w-[60%]">
+                        <h1>Enter Location</h1>
+                        <input name="location" required className="border border-black rounded w-full px-2" />
                     </div>
-
-
                     <div className="flex flex-col text-left">
                         <label htmlfor="description" className="">Enter Job Description</label>
                         <textarea name="description" className="border border-black rounded resize-none px-2" rows="5" cols="26"></textarea>

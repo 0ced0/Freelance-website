@@ -53,7 +53,7 @@ export default function CreateAccount() {
                 </div>
                 <div className="mx-auto mt-4 w-[80%]">
                     <h1>Password</h1>
-                    <input name="password" className="shadow border rounded-lg w-full p-2" />
+                    <input name="password" type="password" className="shadow border rounded-lg w-full p-2" />
                 </div>
 
                 <button type="submit" className="mt-6 p-2 bg-[#b5cb00] mx-auto w-[30%] rounded-lg text-white font-bold">Submit</button>

@@ -15,6 +15,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    phoneNumber: { type: String, default: "" },
+    bio: { type: String, default: "" },
+    skills: { type: [String], default: "" },
+    visits: { type: Number, default: 0 }
+
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);

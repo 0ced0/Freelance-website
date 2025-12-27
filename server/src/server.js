@@ -3,7 +3,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express from "express";
-import route from "./routes/JobsRoute.js"
+import route from "./routes/Router.js"
 import cors from "cors";
 import router from "./routes/Auth.js";
 

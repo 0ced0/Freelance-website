@@ -12,9 +12,7 @@ export const displayJobs = async (req, res) => {
 
 export const newJob = async (req, res) => {
     try {
-        console.log("Body received:", req.body);
         const newJob = await Jobs.create(req.body)
-        console.log(newJob)
         res.status(201).json(newJob);
     }
     catch (error) {
@@ -35,3 +33,13 @@ export const getJobs = async (req, res) => {
 }
 
 
+export const latestJobs = async (req, res) => {
+    try {
+        const latestJobs = await Jobs.aggregate([
+            { $sort: { createdAt: -1 } }
+        ])
+        res.status(200).json(latestJobs)
+    } catch (error) {
+        console.log(error)
+    }
+}
