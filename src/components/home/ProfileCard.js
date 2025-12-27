@@ -80,7 +80,7 @@ export const CheckUser = ({ setIsViewingProfile, viewProfileTarget, user }) => {
         const handleVisit = async () => {
             try {
                 const res = await fetch(
-                    `http://localhost:8000/api/${freeLancer._id}/visit`,
+                    `https://freelance-website-server.onrender.com/api/${freeLancer._id}/visit`,
                     {
                         method: "PATCH",
                         headers: {

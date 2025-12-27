@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
 
         if (token) {
             // Check token validity with backend
-            fetch("http://localhost:8000/api/auth/me", {
+            fetch("https://freelance-website-server.onrender.com/api/auth/me", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

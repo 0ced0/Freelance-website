@@ -6,7 +6,7 @@ export const useUsers = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await fetch("http://localhost:8000/api/fetchFreeLancers")
+                const res = await fetch("https://freelance-website-server.onrender.com/api/fetchFreeLancers")
                 const data = await res.json()
                 setUser(data)
             } catch (error) {
@@ -24,7 +24,7 @@ export const usePopularFreeLancers = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetch("http://localhost:8000/api/fetchFreeLancers/popular")
+                const data = await fetch("https://freelance-website-server.onrender.com/api/fetchFreeLancers/popular")
                 const result = await data.json()
                 setPopularFreeLancers(result)
 

@@ -11,7 +11,7 @@ export default function CreateAccount() {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
         const newUserData = Object.fromEntries(formData.entries())
-        const res = await fetch("http://localhost:8000/api/register", {
+        const res = await fetch("https://freelance-website-server.onrender.com/api/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newUserData)

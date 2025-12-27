@@ -26,7 +26,7 @@ export default function NewJobForm({ isFormOpen, toggleForm }) {
         const newJobData = Object.fromEntries(formData.entries())
         newJobData.author = user._id
         newJobData.email = user.email
-        const res = await fetch("http://localhost:8000/api/jobs", {
+        const res = await fetch("https://freelance-website-server.onrender.com/api/jobs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newJobData)

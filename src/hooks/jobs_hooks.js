@@ -5,7 +5,7 @@ export function useLatestJobs() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await fetch("http://localhost:8000/api/latestJobs");
+                const result = await fetch("https://freelance-website-server.onrender.com/api/latestJobs");
                 const data = await result.json();
                 setLatestJobs(data)
             } catch (error) {
@@ -24,7 +24,7 @@ export default function useJobs() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("http://localhost:8000/api/jobs")
+                const res = await fetch("https://freelance-website-server.onrender.com/api/jobs")
                 const data = await res.json();
                 setJobs(data)
             } catch (error) {

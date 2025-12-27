@@ -13,7 +13,7 @@ export default function EditProfile({ setIsEditProfile }) {
     })
 
     const handleSubmitEditData = async () => {
-        const res = await fetch(`http://localhost:8000/api/freelancers/${user._id}`, {
+        const res = await fetch(`https://freelance-website-server.onrender.com/api/freelancers/${user._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
